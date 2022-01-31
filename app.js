@@ -70,6 +70,10 @@ mongoose
     'mongodb+srv://node-app:node-app@cluster0.gafjw.mongodb.net/messages?retryWrites=true&w=majority'
   )
   .then(result => {
-    app.listen(8080);
+    const server = app.listen(8080);
+    const io = require('./socket').init(server);
+    io.on('connection', socket => {
+      console.log('Client connected');
+    });
   })
   .catch(err => console.log(err));
